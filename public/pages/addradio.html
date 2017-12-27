@@ -1,0 +1,235 @@
+<div class="editingarea">
+    <div class="c_flex"><span class="c_flexible"></span></div>
+    <div class="Topictitle">添加题目</div>
+    <div class="c_editview">
+        <div class="Problem">  
+            <div class="Attributetit">题目属性</div>
+            <div class="Attributecontent">
+                题型: <select name="type" class="one" id="1">
+                </select>
+                方向: <select name="department" class="two" id="2">
+
+                </select>
+                难度: <select name="level" class="three" id="3">
+
+                </select>
+                知识点: <select name="topic" class="four" id="4">
+
+                </select>
+            </div>
+        </div>
+        <div class="Problem">
+            <div class="Attributetit">题目题干</div>
+            <div class="Problemcontent">
+                <textarea name="" id="" cols="154" rows="4" class="stem"></textarea>
+            </div>
+        </div>
+        <div class="Answeroptions">
+            <div class="Attributetit">答案选项<em>(通过勾选每个选项下面的框难吃时间点咳嗽打开)</em></div>
+            <div class="c_condition"><span class="icon_add"><em class="icon_r" style="float: left">添加选项</em></span></div>
+            <div class="Answercontent" id="radio">
+                    <div class="Answerpart">
+                        <div class="Answerpart_left">
+                            <p>A</p><span><input type="radio" name="checkboxradio"/>
+            /></span>
+                        </div>
+                        <div class="Answerpart_right">
+                            <textarea name="choiceContent" id="" cols="60" rows="5" class="answer"></textarea>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                <div class="Answerpart">
+                    <div class="Answerpart_left">
+                        <p>B</p><span><input type="radio" name="checkboxradio"/></span>
+                    </div>
+                    <div class="Answerpart_right">
+                        <textarea name="choiceContent" id="" cols="60" rows="5" class="answer"></textarea>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="Answerpart">
+                    <div class="Answerpart_left">
+                        <p>C</p><span><input type="radio" name="checkboxradio"/></span>
+                    </div>
+                    <div class="Answerpart_right">
+                        <textarea name="choiceContent" id="" cols="60" rows="5" class="answer"></textarea>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="Answerpart">
+                    <div class="Answerpart_left">
+                        <p>D</p><span><input type="radio" name="checkboxradio"/></span>
+                    </div>
+                    <div class="Answerpart_right">
+                        <textarea name="choiceContent" id="" cols="60" rows="5" class="answer"></textarea>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                    <div class="clear"></div>
+            </div>
+
+
+        </div>
+        <div class="Problem">
+            <div class="Attributetit">答案解析</div>
+            <div class="Problemcontent">
+                <textarea name="" id="" cols="154" rows="5" class="analysis"></textarea>
+            </div>
+        </div>
+        
+        <div class="btn_left">
+            <span class="btnL"><em class="btnR">保存并继续</em>
+            </span><span class="btnL"><em class="btnR">保存并关闭</em></span>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $.getJSON("/manager/getAllSubjectType",function(data){
+        //console.log("addradio",data);
+        data.forEach(function(item,index) {
+            var opt = $("<option id="+item['id']+" value="+item['id']+" name="+item['name']+">"+item['realName']+"</option>")
+            //console.log(opt);
+			$(".Attributecontent select:eq(0)").append(opt);
+        })  
+    })
+    $.getJSON("/manager/getAllDepartmentes",function(data){
+        data.forEach(function(item,index) {
+            //console.log(item.id);
+            var opt = $("<option id="+item['id']+" value="+item['id']+" name="+item['name']+">"+item['name']+"</option>")
+			$(".Attributecontent select:eq(1)").append(opt);
+        })
+    })
+    $.getJSON("/manager/getAllSubjectLevel",function(data){
+        data.forEach(function(item,index) {
+            //console.log(item.id);
+            var opt = $("<option id="+item['id']+" value="+item['id']+" name="+item['name']+">"+item['realName']+"</option>")
+			$(".Attributecontent select:eq(2)").append(opt);
+        })  
+    })
+    $.getJSON("/manager/getAllTopics",function(data){
+        data.forEach(function(item,index) {
+            //console.log(item.id);
+            var opt = $("<option id="+item['id']+" value="+item['id']+" name="+item['name']+">"+item['title']+"</option>")
+			$(".Attributecontent select:eq(3)").append(opt);
+        })  
+    })
+
+    //点击select对应的option获取他的id
+    //类型id
+    $("select:eq(0)").off();
+    $("select:eq(0)").on('click',"option",function(){
+        var id=$(this).attr("id");
+        //console.log(id);
+        if(id==1){
+            
+        }else if(id==2){
+            $(".Answerpart_left input").attr("type","checkbox");//把单选框变成复选框
+        }else{
+
+        }
+    })
+    //难易程度id
+    $("select:eq(1)").off();
+    $("select:eq(1)").on('click',"option",function(){
+        var id=$(this).attr("id");
+        //console.log(id);
+    })
+    //方向id
+    $("select:eq(2)").off();
+    $("select:eq(2)").on('click',"option",function(){
+        var id=$(this).attr("id");
+        //console.log(id);
+    })
+    //知识点id
+    $("select:eq(3)").off();
+    $("select:eq(3)").on('click',"option",function(){
+        var id=$(this).attr("id");
+        //console.log(id);
+    })
+
+    $(".btn_left").off('click');
+    $(".btn_left").on('click',function(){
+        var answerArray=[];
+        $(".answer").each(function(){
+            answerArray.push($(this).val());
+        });
+        var answer=JSON.stringify(answerArray);
+        //console.log(answer);    //以上表示把获取到的abcd选项里的值输出到一个数组里
+        //newdata;
+        $.post('manager/saveSubject',{
+            analysis:$(".analysis").val(),
+            answer:answer,
+            checkState:'未审核',
+            stem:$(".stem").val(),
+            department_id:$("select[name=department]").val(),
+            subjectLevel_id:$("select[name=level]").val(),
+            subjectType_id:$("select[name=type]").val(),
+            topic_id:$("select[name=topic]").val()
+            },function(data){
+                console.log(data.insertId);
+                //每个选项的内容
+                var choiceContent = new Array();
+                $("textarea[name='choiceContent']").each(function(index,item){
+                    choiceContent[index]=$(item).val();
+                    
+                })
+                console.log("1",choiceContent);
+            
+            //将单选和多选的选项的数组转化为字符串
+            //var choiceContent = choiceContents.toString();
+            //每个选项的正确与否,返回false和true的数组
+                var correct=[];
+                if($("select[name=type]").val()==1){
+                    $(":radio[name='checkboxradio']").each(function(index,item){
+                        correct[index]=$(item).prop("checked");
+                    })
+                }else{
+                    $(":checkbox[name='checkboxradio']").each(function(index,item){
+                        correct[index]=$(item).prop('checked');
+                    })
+                }
+                
+
+                //将正确选项转为为0,1
+                var correctChoices = [];
+                correct.forEach(function(item){
+                    var newitem = Number(item);
+                    correctChoices.push(newitem);
+                })
+                
+                var newSelectradio={
+                    content:choiceContent,
+                    correct:correctChoices,
+                    subject_id:data.insertId
+                };
+            //console.log("2",newSelectradio);
+                $.ajax('manager/saveSelectRadio',{
+                    'data':JSON.stringify(newSelectradio),
+                    'method':'post',
+                    'contentType':'application/json',
+                    success:function(data){
+                        console.log(data);
+
+                    }
+                })
+
+
+
+
+
+
+            })
+
+    })
+
+
+
+
+    //获取题目的值,选项的值,答案解析的值
+    //添加点击事件,出现单选还是复选
+    //通过勾选单选框或复选框,传入表中对应答案正确还是不正确
+    //点击保存并继续,要清空之前要添加的值
+</script>

@@ -1,0 +1,263 @@
+<div class="editingarea">
+  <div class="c_flex"><span class="c_flexible"></span></div>
+    <div class="c_editview">
+   <div class="c_condition">
+       <span><select><option>题干</option></select></span>
+       <span class="pl5 " ><input type="text"></span>
+       <span class="pl15 pr15 btn_gray ">查找</span>
+       <span class="icon_lead-in"><em class="icon_r">批量导入题目</em></span>
+       <span class="icon_add"><em class="icon_r">单个添加题目</em></span>
+    </div>
+    <div class="divtable">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablea">
+            <tr hidden>
+                <td align="center">年份</td>
+                <td align="left">
+                    <div class="chose">
+                      <a href="#" class="active3">全部</a>
+                      <a href="#">语文</a>
+                      <a href="#">数学</a>
+                      <a href="#">英语</a>
+                      <a href="#">政治</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+         <div class="Catalog">  
+           <div class="Catalog_right">
+               <div class="Catalogtitle">总计<em>15552</em>道题&nbsp;&nbsp;提示：单击体面可显示答案和解析&nbsp;&nbsp;<input type="checkbox" /><b>显示答案和解析</b>&nbsp;&nbsp;<a href="#" class="Thispage">本页全部试题加入试卷</a><div><i>1</i><a href="#" class="pageone">前</a><a href="#" class="pagetwo">后</a></div></div>
+                <!-- <div class="Catalog_rightnei" style="display:none">
+                    <div class="Catalogtitwo">题号：25544&nbsp;&nbsp;题型：还是得&nbsp;&nbsp;难度：订餐&nbsp;&nbsp;上传人：女性司机&nbsp;&nbsp;来源：才能使得&nbsp;&nbsp;上传时间:220255&nbsp;&nbsp;组卷次数：<em>0</em></div>
+                     <div class="Catalogcontent">
+                        <div class="Catalogcontentup">题型</div>
+                        <div class="Catalogcontentdown"><a href="#" class="pass">审核通过</a><a href="#" class="nopass">审核不通过</a><a href="#">删除题目</a></div>
+                    </div> 
+               </div> -->
+                <!-- <div class="Catalog_rightnei2">
+                    <div class="Catalogtitwo">题号：25544&nbsp;&nbsp;题型：还是得&nbsp;&nbsp;难度：订餐&nbsp;&nbsp;上传人：女性司机&nbsp;&nbsp;来源：才能使得&nbsp;&nbsp;上传时间:220255&nbsp;&nbsp;组卷次数：<em>0</em></div>
+                    <div class="Catalogcontent">
+                      <div class="Catalogcontentup">题型</div>
+                      <div class="Catalogcontentdown"><a href="#">加入试卷</a></div>
+                    </div>
+               </div>  -->
+           </div>
+           <div class="clear"></div>
+       </div>
+    </div>
+</div>
+
+ <script type="text/javascript"> 
+//老师方法,只出现一个,第二个总是实现不了
+/*$.getJSON("/manager/getAllSubjectType",function(data){
+    //console.log(data);
+    var tr = $("tr:hidden").clone().removeAttr("hidden");//隐藏,克隆,去掉隐藏 
+    $(".tablea").append(tr);    //显示出来
+    $("td:first-child").html("类型");
+    $(".chose").html("");       //只有类型,其他空白
+    data.forEach(function(item,index){
+       if(index ==0 ){
+         var a = $("<a href='' class='active3'>"+item.realName+"</a>")
+       }else{
+         var a = $("<a href=''>"+item.realName+"</a>")
+       }
+       $(".chose").append(a);
+     })
+  })*/
+//所有类型
+$.getJSON("/manager/getAllSubjectType",function(data){
+    var newTr=$(".divtable tr:hidden").clone(); //克隆
+    newTr.removeAttr("hidden");     //显示
+    newTr.find(".chose").html("");
+    newTr.children("td").eq(0).html("类型");
+    data.forEach(function(item,index){
+        var a="";
+        if(index==0){
+            a=$("<a href='javascript:void(0)' id="+item.id+" name="+item.name+" class='active3'>"+item.realName+"</a>");
+        }else{
+            a=$("<a href='javascript:void(0)' id="+item.id+" name="+item.name+">"+item.realName+"</a>");
+        }
+        newTr.find(".chose").append(a);
+    })
+    $(".tablea").append(newTr);
+})
+//难易程度
+$.getJSON("/manager/getAllSubjectLevel",function(data){
+    var newTr=$(".divtable tr:hidden").clone();
+    newTr.removeAttr("hidden");
+    newTr.find(".chose").html("");
+    newTr.children("td").eq(0).html("难易程度");
+    data.forEach(function(item,index){
+        var a="";
+        if(index==0){
+            a=$("<a href='javascript:void(0)' id="+item.id+" name="+item.realName+" class='active3'>"+item.realName+"</a>");
+        }else{
+            a=$("<a href='javascript:void(0)' id="+item.id+" name="+item.name+">"+item.realName+"</a>");
+        }
+        newTr.find(".chose").append(a);
+    })
+    $(".tablea").append(newTr);
+})
+//所有方向
+$.getJSON("/manager/getAllDepartmentes",function(data){
+    var newTr=$(".divtable tr:hidden").clone();
+    newTr.removeAttr("hidden");
+    newTr.find(".chose").html("");
+    newTr.children("td").eq(0).html("方向");
+    data.forEach(function(item,index){
+        var a="";
+        if(index==0){
+            a=$("<a href='javascript:void(0)' id="+item.id+" name="+item.name+" class='active3'>"+item.name+"</a>");
+        }else{
+            a=$("<a href='javascript:void(0)' id="+item.id+" name="+item.name+">"+item.name+"</a>");
+        }
+        newTr.find(".chose").append(a);
+    })
+    $(".tablea").append(newTr);
+})
+//所有知识点
+$.getJSON("/manager/getAllTopics",function(data){
+    var newTr=$(".divtable tr:hidden").clone();
+    newTr.removeAttr("hidden");
+    newTr.find(".chose").html("");
+    newTr.children("td").eq(0).html("知识点");
+    data.forEach(function(item,index){
+        var a="";
+        if(index==0){
+            a=$("<a href='javascript:void(0)' id="+item.id+" class='active3'>"+item.title+"</a>");
+        }else{
+            a=$("<a href='javascript:void(0)' id="+item.id+">"+item.title+"</a>");
+        }
+        newTr.find(".chose").append(a);
+    })
+    $(".tablea").append(newTr);
+})
+//绿色框框
+$('.tablea').on('click',"a",function(){
+    $(this).addClass("active3").siblings().removeClass("active3");
+    //var id=$(this).attr("id");
+    //console.log($(".active3")[1].id);
+    var newSubject={
+        subjectType_id:$(".active3")[1].id,
+        subjectLevel_id:$(".active3")[2].id,
+        department_id:$(".active3")[3].id,
+        topic_id:$(".active3")[4].id
+    };
+    $.ajax('manager/findByIdSubject',{
+        'data':newSubject,
+        'method':'POST',
+        'content-Type':'application/json',
+        success:function(data){ 
+            // console.log(data);      //数组Array[Object]
+            //var data=JSON.stringify(data);    //把对象转化成字符串
+            //取到stem里面的内容,遍历也可以
+        //var data=data[0];
+            //console.log(data);      //打印的是Object{}对象
+            //console.log(data.stem); //对象可以data.stem这样取
+            //取到题干信息
+/*
+            $('.Catalogcontentup').eq(0).html(data.stem);
+            $(".Catalogcontentup").append("<tr></tr>"); //追加下一条数据的时候换行显示
+            if($(".active3")[1].id==3){
+                $(".Catalogcontentup").append("<tr></tr>"); //追加下一条数据的时候换行显示
+                $(".Catalogcontentup").append(data.answer);    
+            } 
+*/ 
+            //把隐藏的div显示出来
+            data.forEach(function(item,index){
+                var ss=$('<div class="Catalog_rightnei">'
+                        +'<div class="Catalogtitwo">题号：25544&nbsp;&nbsp;题型：还是得&nbsp;&nbsp;难度：订餐&nbsp;&nbsp;上传人：女性司机&nbsp;&nbsp;来源：才能使得&nbsp;&nbsp;上传时间:220255&nbsp;&nbsp;组卷次数：<em>0</em></div>'
+                        +'<div class="Catalogcontent">'
+                            +'<div class="Catalogcontentup">题型</div>'
+                            +'<div class="Catalogcontentdown"><a href="#" class="pass">审核通过</a><a href="#" class="nopass">审核不通过</a><a href="#">删除题目</a></div>'
+                        +'</div>' 
+                +'</div>');
+                //追加空白
+                $(".Catalog_right").append(ss);
+                //追加题干
+                $(".Catalogcontentup").eq(index).append(item.stem+"</br>");
+
+                //显示答案并匹配正确答案变红色------追加答案
+                var id=item.id; //获取subject_id(由4个id决定的)
+                //console.log("subject_id",item.id);//356
+                $.ajax({    //ajax里面还能有ajax
+                    url:'/manager/findCorrect',
+                    method:'post',
+                    data:{id:id},
+                    success:function(data){
+                    console.log("答案,一个题的subject_id都一样",data);
+
+                    //拿到整个数据遍历,判断答案是否正确
+                    data.forEach(function(item,index){
+                        if(item.correct==1){
+                            $(".Catalogcontentup").append("<span style='color:red'>"+String.fromCharCode(index+65)+"</span>"+"&nbsp;&nbsp;"+"<span style='color:red'>"+item.content+"</span>"+"</br>");
+                        }else{
+                            $(".Catalogcontentup").append("<span>"+String.fromCharCode(index+65)+"</span>"+"&nbsp;&nbsp;"+"<span>"+item.content+"</span>"+"</br>");
+                        } 
+                    })
+
+                    }
+                })
+
+
+        //审核通过和不通过
+            $(".pass").off();
+            $(".pass").on('click',function(){
+
+                console.log("subject_id",id);
+                $.post('/manager/checkSubject',{
+                    'id':id,
+                    'checkState':'审核通过'
+                })
+                var aa=$('<div class="Catalogcontentdown"><a href="#">加入试卷</a></div>');
+                $(".Catalogcontentdown").remove();
+                $(".Catalogcontent").append(aa);
+
+            })
+            $(".nopass").off();
+            $(".nopass").on('click',function(){
+                alert("审核不通过");
+                $.post('/manager/checkSubject',{
+                    'id':id,
+                    'checkState':'未通过'
+                })
+            })
+
+})
+ 
+            
+            
+
+           
+            //审核通过和不通过
+            /*$(".pass").off();
+            $(".pass").on('click',function(){
+                //console.log("审核测试",data.id);
+                alert(1);
+                $.post('/manager/checkSubject',{
+                    'id':data.id,
+                    'checkState':'审核通过'
+                })
+                $(".Catalog_rightnei2").show();
+                $(".Catalog_rightnei").hide();
+            })
+            $(".nopass").off();
+            $(".nopass").on('click',function(){
+                alert("审核不通过");
+                $.post('/manager/checkSubject',{
+                    'id':data.id,
+                    'checkState':'未通过'
+                })
+            })*/
+        }
+    })
+
+  
+})
+$(".icon_r").on('click',function(){
+    $(".right").load("pages/addradio.html");
+})
+
+
+
+</script>
